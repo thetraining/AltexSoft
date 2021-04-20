@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Task</title>
+
+</head>
+<style>
+    body, html {
+        width: 100%;
+        height: 100%;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Georgia;
+        background-color: #313131;
+        color: #fff;
+    }
+
+
+    .btn_bl {
+        display: flex;
+    }
+
+    .btn {
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        cursor: pointer;
+        outline: none;
+        background-color: #a7c353;
+        color: #313131;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.5em;
+        font-weight: bold;
+        transition: ease-in 0.3s;
+        padding-right: -1px;
+    }
+
+    .btn:hover {
+        transition: ease-in 0.3s;
+        color: #a7c353;
+        background-color: #414141;
+    }
+
+    #text {
+        color: #fff;
+        margin-top: 20px;
+        background-color: #383838;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    width: 90%;
+    font-size: 1em;
+    font-family: Georgia;
+    padding: 7px;
+    margin-bottom: 10px;
+    resize: none;
+
+    }
+
+    .main_bl {
+        margin: auto;
+        position: relative;
+        top: 100px;
+        width: 30%;
+        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main_bl>p {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+
+    .activev {
+        background-color: red;
+        color: #fff;
+    }
+
+
+</style>
+<body>
+    
+    <div class="main_bl">
+        <p>Choose letter</p>
+    <div class="btn_bl">
+        <button class="btn" onclick="kek(0);"></button>
+        <button class="btn" onclick="kek(1);"></button>
+        <button class="btn" onclick="kek(2);"></button>
+        <button class="btn" onclick="kek(3);"></button>
+        <button class="btn" onclick="kek(4);"></button>    
+    </div>
+    <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    </div>
+
+
+    <script>
+
+
+        var section = document.querySelector('section');
+        var dataJSON;
+        var data = [];
+        var xhttp = new XMLHttpRequest();
+        xhttp.responseType = 'JSON';
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                dataJSON = this.response;
+                showWords(JSON.parse(dataJSON));
+            }
+        };
+        xhttp.open("GET", "https://raw.githubusercontent.com/thetraining/AltexSoft/main/JS/list.json", true);
+        xhttp.send();
+
+
+        function showWords(jsonObj) {
+            for (var i = 0; i < jsonObj.length; i++) {
+                data.push(jsonObj[i].name);
+            }
+        };
+
+
+        var letters = makeid(5);
+        var btns = document.getElementsByClassName('btn');
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].innerHTML = letters[i];
+        }    
+
+        function makeid(length) {
+            var result = [];
+            var characters = 'abcdefghijklmnopqrstuvwxyz';
+            var charactersLength = characters.length;
+            while(result.length < 5){
+                var tmp = characters.charAt(Math.floor(Math.random() * charactersLength));
+                if (result.indexOf(tmp) == -1) {result.push(tmp);}
+            }
+            return result.join('');
+        }
+
+
+        for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName(" activev");
+            for (let j = 0; j < current.length; j++){
+                current[j].className = current[j].className.replace(" activev", "");
+            }
+            this.className += " activev";
+            });
+        }
+
+        
+        function kek(ind) {
+            var tmp = '';
+            for(let i = 0; i < data.length; i++) {
+               
+                if (data[i][0].toLowerCase() == letters[ind]) {
+                    tmp += data[i] + '\n';
+                }
+            }
+            if (tmp != ''){ document.getElementById('text').value = tmp;}
+            else {
+                document.getElementById('text').value = 'No matches';
+            }
+        }
+       
+    </script>
+
+</body>
+</html>
