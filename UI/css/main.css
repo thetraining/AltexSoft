@@ -188,7 +188,7 @@ a, li {
     height: 100vh;
     width: 100vw;
     background: #414141;
-    z-index: 2;
+    z-index: 999;
     visibility: hidden;
     position: fixed;
   }
