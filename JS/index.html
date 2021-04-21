@@ -95,11 +95,14 @@
     <div class="main_bl">
         <p>Choose letter</p>
     <div class="btn_bl">
-        <button class="btn" onclick="kek(0);"></button>
-        <button class="btn" onclick="kek(1);"></button>
-        <button class="btn" onclick="kek(2);"></button>
-        <button class="btn" onclick="kek(3);"></button>
-        <button class="btn" onclick="kek(4);"></button>    
+        <select id="sel" onchange="kek(value);">
+            <option value="Choose letter">Choose letter</option>
+            <option value=0>Значение 1</option>
+            <option value=1>Значение 2</option>
+            <option value=2>Значение 3</option>
+            <option value=3>Значение 1</option>
+            <option value=4>Значение 3</option>
+        </select>   
     </div>
     <textarea name="text" id="text" cols="30" rows="10"></textarea>
     </div>
@@ -107,6 +110,7 @@
 
     <script>
 
+        
 
         var section = document.querySelector('section');
         var dataJSON;
@@ -131,9 +135,14 @@
 
 
         var letters = makeid(5);
-        var btns = document.getElementsByClassName('btn');
-        for (let i = 0; i < btns.length; i++) {
-            btns[i].innerHTML = letters[i];
+        let selectedOption = sel.options;
+
+       /* sel.addEventListener("click", function() {
+            kek(sel.options.value);
+        });*/
+
+        for (let i = 0; i < selectedOption.length; i++) {
+            selectedOption[i+1].text = letters[i];
         }    
 
         function makeid(length) {
@@ -147,20 +156,12 @@
             return result.join('');
         }
 
-
-        for (var i = 0; i < btns.length; i++) {
-        btns[i].addEventListener("click", function() {
-            var current = document.getElementsByClassName(" activev");
-            for (let j = 0; j < current.length; j++){
-                current[j].className = current[j].className.replace(" activev", "");
-            }
-            this.className += " activev";
-            });
-        }
-
         
         function kek(ind) {
             var tmp = '';
+            if (ind == 'Choose letter'){
+                return;
+            }
             for(let i = 0; i < data.length; i++) {
                
                 if (data[i][0].toLowerCase() == letters[ind]) {
